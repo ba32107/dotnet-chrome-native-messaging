@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrome.NativeMessaging", "Chrome.NativeMessaging\Chrome.NativeMessaging.csproj", "{0ABD7743-CA29-4E2F-B21E-569D9C6D0100}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chrome.NativeMessaging.Test", "Chrome.NativeMessaging.Test\Chrome.NativeMessaging.Test.csproj", "{D0207FCD-F7EA-4046-BB47-1B8BE997C9EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0ABD7743-CA29-4E2F-B21E-569D9C6D0100}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ABD7743-CA29-4E2F-B21E-569D9C6D0100}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ABD7743-CA29-4E2F-B21E-569D9C6D0100}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ABD7743-CA29-4E2F-B21E-569D9C6D0100}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0207FCD-F7EA-4046-BB47-1B8BE997C9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0207FCD-F7EA-4046-BB47-1B8BE997C9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0207FCD-F7EA-4046-BB47-1B8BE997C9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0207FCD-F7EA-4046-BB47-1B8BE997C9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
