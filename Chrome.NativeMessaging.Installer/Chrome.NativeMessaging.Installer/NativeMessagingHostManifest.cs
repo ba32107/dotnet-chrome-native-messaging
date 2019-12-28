@@ -79,8 +79,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging
             set
             {
                 _allowedOrigins = value
-                    .Select(origin => 
-                        origin.StartsWith(OriginPrefix)
+                    ?.Select(origin =>
+                        origin == null || origin.StartsWith(OriginPrefix)
                         ? origin
                         : $"{OriginPrefix}//{origin}/")
                     .ToArray();

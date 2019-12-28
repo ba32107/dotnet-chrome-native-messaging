@@ -8,7 +8,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging
     public static class NativeMessagingHostInstallerFactory
     {
         /// <summary>
-        /// Gets an <see cref="io.github.ba32107.Chrome.NativeMessaging.INativeMessagingHostInstaller"/> instance for the current platform.
+        /// Creates an <see cref="io.github.ba32107.Chrome.NativeMessaging.INativeMessagingHostInstaller"/> instance for the current platform.
         /// </summary>
         /// <param name="fs">An <see cref="IFileSystem"/> instance that represents the local file system</param>
         public static INativeMessagingHostInstaller CreateInstaller(IFileSystem fs)
