@@ -6,6 +6,10 @@ using io.github.ba32107.Chrome.NativeMessaging.Internal;
 
 namespace io.github.ba32107.Chrome.NativeMessaging
 {
+    /// <summary>
+    /// Default implementation of <see cref="io.github.ba32107.Chrome.NativeMessaging.INativeMessagingHost"/>. This
+    /// class is not thread safe.
+    /// </summary>
     public class NativeMessagingHost : INativeMessagingHost
     {
         private const int MessagePrefixLength = 4;
@@ -19,11 +23,11 @@ namespace io.github.ba32107.Chrome.NativeMessaging
         {
             _streamProvider = streamProvider;
         }
-        
+
         public void Send(string message)
         {
             var messageByteArray = MessageToChromeCompliantByteArray(message);
-            
+
             using (var stdOut = _streamProvider.GetStandardOutputStream())
             {
                 stdOut.Write(messageByteArray, 0, messageByteArray.Length);
@@ -33,7 +37,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging
         public async Task SendAsync(string message)
         {
             var messageByteArray = MessageToChromeCompliantByteArray(message);
-            
+
             using (var stdOut = _streamProvider.GetStandardOutputStream())
             {
                 await stdOut.WriteAsync(messageByteArray, 0, messageByteArray.Length);
@@ -51,9 +55,9 @@ namespace io.github.ba32107.Chrome.NativeMessaging
             {
                 return;
             }
-            
+
             _listening = true;
-            
+
             while (true)
             {
                 using (var stdIn = _streamProvider.GetStandardInputStream())
@@ -68,11 +72,11 @@ namespace io.github.ba32107.Chrome.NativeMessaging
                         _listening = false;
                         return;
                     }
-                    
+
                     var buffer = new byte[messageLength];
                     stdIn.Read(buffer, 0, messageLength);
                     var message = Encoding.UTF8.GetString(buffer);
-                    
+
                     var response = messageHandler(message);
                     Send(response);
                 }
@@ -83,7 +87,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging
         {
             await StartListeningAsync(asyncMessageHandler, () => Task.CompletedTask);
         }
-        
+
         public async Task StartListeningAsync(Func<string, Task<string>> asyncMessageHandler,
             Func<Task> asyncDisconnectHandler)
         {
@@ -91,9 +95,9 @@ namespace io.github.ba32107.Chrome.NativeMessaging
             {
                 return;
             }
-            
+
             _listening = true;
-            
+
             while (true)
             {
                 using (var stdIn = _streamProvider.GetStandardInputStream())
@@ -108,13 +112,13 @@ namespace io.github.ba32107.Chrome.NativeMessaging
                         _listening = false;
                         return;
                     }
-                    
+
                     var buffer = new byte[messageLength];
                     await stdIn.ReadAsync(buffer, 0, messageLength);
                     var message = Encoding.UTF8.GetString(buffer);
 
                     var response = await asyncMessageHandler(message);
-                    await SendAsync(response);    
+                    await SendAsync(response);
                 }
             }
         }
