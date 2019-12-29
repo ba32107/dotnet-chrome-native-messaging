@@ -12,11 +12,12 @@
         /// </param>
         /// <returns>
         /// The file paths to which the manifest file was written to, or <c>null</c> if the installation was
-        /// not successful.
+        /// not successful. Returns an empty array if no changes were made (if for example, neither Chrome or
+        /// Chromium is installed on the machine).
         /// </returns>
         /// <remarks>
         /// On Windows, the manifest file will be written to a subdirectory called <c>"NativeMessagingHosts"</c> in the
-        /// default user data directory. The default path for these is <c>"%LOCALAPPDATA%\Google\Chrome\User Data"</c>
+        /// default user data directory. The default path for this is <c>"%LOCALAPPDATA%\Google\Chrome\User Data"</c>
         /// for Chrome, and <c>"%LOCALAPPDATA%\Chromium\User Data"</c> for Chromium. See more details on
         /// https://chromium.googlesource.com/chromium/src/+/master/docs/user_data_dir.md#Windows.
         /// <br/><br/>
@@ -31,7 +32,7 @@
         /// <c>".json"</c> extension. If it already exists, it will be overwritten.
         /// </remarks>
         string[] Install(NativeMessagingHostManifest manifest);
-        
+
         /// <summary>
         /// Uninstalls the native messaging host on the local machine. This consists of deleting the manifest file from
         /// all installed locations (see <see cref="Install"/> for details), and on Windows, removing the registry

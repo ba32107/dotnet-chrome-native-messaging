@@ -26,7 +26,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
                     : ValidationResult.Success;
             }
 
-            return new ValidationResult($"The '{nameof(StringArrayRegularExpressionAttribute)}' attribute must be applied on a string array property");
+            return new ValidationResult(
+                $"The '{nameof(StringArrayRegularExpressionAttribute)}' attribute must be applied on a string array property.");
         }
     }
 }

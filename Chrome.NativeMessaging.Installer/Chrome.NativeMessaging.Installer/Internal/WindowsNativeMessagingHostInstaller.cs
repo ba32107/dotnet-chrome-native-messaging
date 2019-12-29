@@ -21,12 +21,13 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
         {
             ValidateManifest(manifest);
 
-            var (primaryManifestPath, allManifestPaths) = GetManifestPaths(manifest);
+            var (primaryManifestPath, allManifestPaths) = GetPrimaryAndAllPossibleManifestPaths(manifest);
 
             allManifestPaths.ToList().ForEach(path => WriteManifestToFile(manifest, path));
             if (primaryManifestPath != null)
             {
-                CreateRegistryKeyAndSetDefaultValueInCurrentUser(ToRegistryKeyPath(manifest.Name), primaryManifestPath);
+                var registryKeyPath = ToChromeNativeMessagingHostRegistryKeyPath(manifest.Name);
+                CreateRegistryKeyInCurrentUserAndSetDefaultValue(registryKeyPath, primaryManifestPath);
             }
 
             return allManifestPaths;
@@ -36,20 +37,20 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
         {
             ValidateManifest(manifest);
 
-            var (_, allManifestPaths) = GetManifestPaths(manifest);
+            var (_, allManifestPaths) = GetPrimaryAndAllPossibleManifestPaths(manifest);
 
-            allManifestPaths.ToList().ForEach(DeleteFileWithDirectoryIfExists);
+            allManifestPaths.ToList().ForEach(DeleteFileWithParentDirectoryIfExists);
 
-            DeleteRegistryKeyFromCurrentUserNoThrow(ToRegistryKeyPath(manifest.Name));
+            var registryKeyPath = ToChromeNativeMessagingHostRegistryKeyPath(manifest.Name);
+            DeleteRegistryKeyFromCurrentUserNoThrow(registryKeyPath);
         }
 
         private static void ValidateManifest(NativeMessagingHostManifest manifest)
         {
-            var ctx = new ValidationContext(manifest);
-            Validator.ValidateObject(manifest, ctx, true);
+            Validator.ValidateObject(manifest, new ValidationContext(manifest), true);
         }
 
-        private (string PrimaryManifestPath, string[] AllManifestPaths) GetManifestPaths(
+        private (string PrimaryManifestPath, string[] AllManifestPaths) GetPrimaryAndAllPossibleManifestPaths(
             NativeMessagingHostManifest manifest)
         {
             var chromeUserDataDirectory = ResolvePath(@"%LOCALAPPDATA%\Google\Chrome\User Data");
@@ -61,22 +62,22 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
             var manifestPathForChrome = _fs.Path.Combine(chromeUserDataDirectory, manifestFileRelativePath);
             var manifestPathForChromium = _fs.Path.Combine(chromiumUserDataDirectory, manifestFileRelativePath);
 
-            var allManifestPaths = new List<string>();
+            var allPossibleManifestPaths = new List<string>();
 
             if (chromeInstalled)
             {
-                allManifestPaths.Add(manifestPathForChrome);
+                allPossibleManifestPaths.Add(manifestPathForChrome);
             }
             if (chromiumInstalled)
             {
-                allManifestPaths.Add(manifestPathForChromium);
+                allPossibleManifestPaths.Add(manifestPathForChromium);
             }
 
             var primaryManifestPath = chromeInstalled
                 ? manifestPathForChrome
                 : chromiumInstalled ? manifestPathForChromium : null;
 
-            return (primaryManifestPath, allManifestPaths.ToArray());
+            return (primaryManifestPath, allPossibleManifestPaths.ToArray());
         }
 
         private string ResolvePath(string path)
@@ -90,7 +91,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
             _fs.Directory.CreateDirectory(_fs.Path.GetDirectoryName(manifestFilePath));
             _fs.File.WriteAllText(manifestFilePath, manifestAsJson);
         }
-        private void DeleteFileWithDirectoryIfExists(string filePath)
+        private void DeleteFileWithParentDirectoryIfExists(string filePath)
         {
             if (_fs.File.Exists(filePath))
             {
@@ -103,12 +104,12 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
             }
         }
 
-        private static string ToRegistryKeyPath(string manifestName)
+        private static string ToChromeNativeMessagingHostRegistryKeyPath(string manifestName)
         {
             return $@"SOFTWARE\Google\Chrome\NativeMessagingHosts\{manifestName}";
         }
 
-        internal virtual void CreateRegistryKeyAndSetDefaultValueInCurrentUser(string key, string value)
+        internal virtual void CreateRegistryKeyInCurrentUserAndSetDefaultValue(string key, string value)
         {
             using (var registryKey = Registry.CurrentUser.CreateSubKey(key))
             {

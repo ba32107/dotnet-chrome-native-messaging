@@ -25,12 +25,11 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
         public void SetUp()
         {
             _fs = new MockFileSystem();
-
             _uut = A.Fake<WindowsNativeMessagingHostInstaller>(x => x.WithArgumentsForConstructor(() =>
                     new WindowsNativeMessagingHostInstaller(_fs)
                 ));
 
-            A.CallTo(() => _uut.CreateRegistryKeyAndSetDefaultValueInCurrentUser(A<string>._, A<string>._))
+            A.CallTo(() => _uut.CreateRegistryKeyInCurrentUserAndSetDefaultValue(A<string>._, A<string>._))
                 .DoesNothing();
             A.CallTo(() => _uut.DeleteRegistryKeyFromCurrentUserNoThrow(A<string>._)).DoesNothing();
 
@@ -41,7 +40,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
                 Path = "path",
                 AllowedOrigins = new []
                 {
-                    "abc123"
+                    "origin"
                 }
             };
 
@@ -59,7 +58,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
             var installedManifests = _uut.Install(_manifest);
 
             Assert.IsEmpty(installedManifests);
-            A.CallTo(() => _uut.CreateRegistryKeyAndSetDefaultValueInCurrentUser(A<string>._, A<string>._))
+            A.CallTo(() => _uut.CreateRegistryKeyInCurrentUserAndSetDefaultValue(A<string>._, A<string>._))
                 .MustNotHaveHappened();
             VerifyFileAndParentDirectoryDoesNotExist(_chromeManifestFilePath);
             VerifyFileAndParentDirectoryDoesNotExist(_chromiumManifestFilePath);
@@ -138,6 +137,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
             VerifyRegistryKeyDeleted();
         }
 
+        // ReSharper disable once ParameterOnlyUsedForPreconditionCheck.Local
         private void VerifyManifestInstalled(string[] installedManifests, string manifestPath)
         {
             Assert.True(installedManifests.Contains(manifestPath));
@@ -147,7 +147,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
         private void VerifyRegistryKeyCreatedForManifest(string manifestPath)
         {
             A.CallTo(() =>
-                    _uut.CreateRegistryKeyAndSetDefaultValueInCurrentUser(
+                    _uut.CreateRegistryKeyInCurrentUserAndSetDefaultValue(
                         $@"{RegistryKeyPrefix}\{ManifestName}", manifestPath))
                 .MustHaveHappened();
         }
@@ -167,8 +167,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
 
         private void VerifyFileAndParentDirectoryDoesNotExist(string filePath)
         {
-            var directory = _fs.Path.GetDirectoryName(filePath);
-            Assert.False(_fs.Directory.Exists(directory));
+            var parentDirectory = _fs.Path.GetDirectoryName(filePath);
+            Assert.False(_fs.Directory.Exists(parentDirectory));
             Assert.False(_fs.File.Exists(filePath));
         }
     }
