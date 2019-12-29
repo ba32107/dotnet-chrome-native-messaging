@@ -23,7 +23,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
 
             var (primaryManifestPath, allManifestPaths) = GetPrimaryAndAllPossibleManifestPaths(manifest);
 
-            allManifestPaths.ToList().ForEach(path => WriteManifestToFile(manifest, path));
+            var manifestAsJson = JsonConvert.SerializeObject(manifest, Formatting.Indented);
+            allManifestPaths.ToList().ForEach(path => WriteTextToFileCreateParentDirectory(manifestAsJson, path));
             if (primaryManifestPath != null)
             {
                 var registryKeyPath = ToChromeNativeMessagingHostRegistryKeyPath(manifest.Name);
@@ -85,12 +86,12 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
             return _fs.Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
         }
 
-        private void WriteManifestToFile(NativeMessagingHostManifest manifest, string manifestFilePath)
+        private void WriteTextToFileCreateParentDirectory(string text, string manifestFilePath)
         {
-            var manifestAsJson = JsonConvert.SerializeObject(manifest, Formatting.Indented);
             _fs.Directory.CreateDirectory(_fs.Path.GetDirectoryName(manifestFilePath));
-            _fs.File.WriteAllText(manifestFilePath, manifestAsJson);
+            _fs.File.WriteAllText(manifestFilePath, text);
         }
+
         private void DeleteFileWithParentDirectoryIfExists(string filePath)
         {
             if (_fs.File.Exists(filePath))
