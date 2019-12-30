@@ -1,6 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <PackageId>Chrome.NativeMessaging</PackageId>
+        <PackageVersion>1.0.0</PackageVersion>
+        <Description>Library that implements a Native Messaging Host for Chrome extensions</Description>
+        <PackageTags>Chrome;Native;Messaging;NativeMessaging</PackageTags>
+        <Authors>ba32107</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryUrl>https://github.com/ba32107/dotnet-chrome-native-messaging</RepositoryUrl>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>io.github.ba32107.Chrome.NativeMessaging</RootNamespace>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
