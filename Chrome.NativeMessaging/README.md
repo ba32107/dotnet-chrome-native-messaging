@@ -6,7 +6,7 @@ Use NuGet to add the package to your project.
 
 ## Usage
 
-If you just need a simple messaging host that responds to Chrome messages, use `StartListening`. This method will continously process incoming messages and send replies, until Chrome disconnects the port or it closes. You need to do your own JSON serialization. The below example uses `Newtonsoft.Json` and sends the message back unaltered:
+If you just need a simple messaging host that responds to Chrome messages, use `StartListening`. This method will continously process incoming messages and send replies, until Chrome disconnects the port or it is closed. You need to do your own JSON serialization. The below example uses `Newtonsoft.Json` and sends the message back unaltered:
 ```C#
 var host = new NativeMessagingHost();
 host.StartListening(jsonMessage =>
@@ -36,7 +36,6 @@ var host = new NativeMessagingHost();
 await host.StartListeningAsync(async jsonMessage =>
 {
     var message = JsonConvert.DeserializeObject(jsonMessage);
-    // ProcessMessageAsync is your async function
     var response = await ProcessMessageAsync(message);
     return JsonConvert.SerializeObject(response);
 });
@@ -52,7 +51,7 @@ await host.StartListeningAsync(async jsonMessage =>
     return JsonConvert.SerializeObject(response);
 }, async () =>
 {
-    await CleanUdpAsync();
+    await CleanUpAsync();
 });
 ```
 
@@ -83,7 +82,7 @@ host.StartListening(jsonMessage =>
     return JsonConvert.SerializeObject(response);
 });
 ```
-This does not make sense at all: the message handler in the listening loop only triggers when Chrome send a message to the host, and will send the returned value back to Chrome. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
+This does not make sense at all: the message handler in the listening loop only triggers when Chrome sends a message to the host, and will send the returned value back to Chrome. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
 
 The correct way to use the `Send` methods is to invoke them outside of the listening loops. However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
 
