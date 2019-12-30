@@ -58,18 +58,17 @@ await host.StartListeningAsync(async jsonMessage =>
 Additionally, you can send messages to Chrome at any time, independent of the listening loops by using `SendMessage` or `SendMessageAsync`:
 ```C#
 host.Send(myMessageAsJson);
-```
-```C#
+// or
 await host.SendAsync(myMessageAsJson);
 ```
 
 #### Difference between the `StartListening` and `Send` methods
 
-The different flavours of the `StartListening` will keep executing as long as Chrome keeps the connection open. They are intended to reply to messages coming from the Chrome extension. The interaction between Chrome and the native messaging host can only be initiated from Chrome.
+The different flavours of `StartListening` will keep executing as long as Chrome keeps the connection open. They are intended to listen and reply to messages coming from the Chrome extension. The interaction between Chrome and the native messaging host is always initiated by Chrome.
 
-The `Send` methods are the opposite. They can be used to initiate communication from the native messaging host towards Chrome. This is useful if you need to notify your Chrome extension of events that happen on the local machine.
+The `Send` methods are the opposite. They can be used to initiate communication from the native messaging host. This is useful if you need to notify your Chrome extension of events that happen on the local machine.
 
-This also means that should *__should not__* do something like this:
+This also means that you should *__should not__* do something like this:
 ```C#
 host.StartListening(jsonMessage =>
 {
@@ -82,9 +81,9 @@ host.StartListening(jsonMessage =>
     return JsonConvert.SerializeObject(response);
 });
 ```
-This does not make sense at all: the message handler in the listening loop only triggers when Chrome sends a message to the host, and will send the returned value back to Chrome. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
+This does not make sense at all: the value you return in the message handler  is automatically sent back to Chrome, as a reply to the received message. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
 
-The correct way to use the `Send` methods is to invoke them outside of the listening loops. However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
+The correct way to use the `Send` methods is to invoke them outside of the listening loops, typically in some kind of event listener. However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
 
 ### FAQ
 
