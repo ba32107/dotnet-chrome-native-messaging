@@ -2,7 +2,7 @@
 
 A simple and intuitive .NET implementation of the [Chrome Native Messaging host](https://developer.chrome.com/apps/nativeMessaging).
 
-* Dead simple
+* Easy to use
 * No JSON parsing, no dependencies
 * .NET Standard & fully platform independent
 * Uses abstractions, easy to unit test
@@ -10,9 +10,9 @@ A simple and intuitive .NET implementation of the [Chrome Native Messaging host]
 * Separate installer library
 * Available as NuGet packages
 
-### Chrome.NativeMessaging
+## Chrome.NativeMessaging
 
-It really is dead simple to use - all you need to implement is a `Func<string, string>`:
+The main library that implements the native messaging host. It really is easy to use - all you need to implement is a `Func<string, string>`:
 ```C#
 var host = new NativeMessagingHost();
 host.StartListening(jsonMessage =>
@@ -24,4 +24,6 @@ host.StartListening(jsonMessage =>
 
 Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/Chrome.NativeMessaging/README.md) to learn more.
 
-### Chrome.NativeMessaging.Installer
+## Chrome.NativeMessaging.Installer
+
+The installer library.
