@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>io.github.ba32107.Chrome.NativeMessaging.ExampleApp</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Chrome.NativeMessaging.Installer\Chrome.NativeMessaging.Installer\Chrome.NativeMessaging.Installer.csproj" />
+      <ProjectReference Include="..\..\Chrome.NativeMessaging\Chrome.NativeMessaging\Chrome.NativeMessaging.csproj" />
+    </ItemGroup>
+
+</Project>
