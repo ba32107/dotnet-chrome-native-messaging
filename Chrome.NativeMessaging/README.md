@@ -83,7 +83,7 @@ host.StartListening(jsonMessage =>
 ```
 This does not make sense at all: the value you return in the message handler  is automatically sent back to Chrome, as a reply to the received message. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
 
-The correct way to use the `Send` methods is to invoke them outside of the listening loops, typically in some kind of event listener. However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
+The correct way to use the `Send` methods is to invoke them outside of the listening loops (typically as a result of some event you observe on the machine). However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
 
 ### FAQ
 
