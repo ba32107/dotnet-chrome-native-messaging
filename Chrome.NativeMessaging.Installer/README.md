@@ -49,5 +49,5 @@ __Note:__ the above action does not remove any of the native messaging host file
 ### More docs
 Please refer to the XML documentation for more details.
 
-#### Platform compatibility
+## Platform compatibility
 The package is designed to be platform independent - however, the installer is currently only implemented for Windows. There are plans to implement the Linux and OS X version as well.
