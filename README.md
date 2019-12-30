@@ -10,7 +10,7 @@ A simple and intuitive .NET implementation of the [Chrome Native Messaging host]
 * Separate installer library
 * Available as NuGet packages
 
-## Chrome.NativeMessaging
+### Chrome.NativeMessaging
 
 The main library that implements the native messaging host. It really is easy to use - all you need to implement is a `Func<string, string>`:
 ```C#
@@ -24,7 +24,7 @@ host.StartListening(jsonMessage =>
 
 Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Chrome.NativeMessaging.md) to learn more.
 
-## Chrome.NativeMessaging.Installer
+### Chrome.NativeMessaging.Installer
 
 The installer package. You just need to create a manifest and let the library to the rest:
 ```C#
