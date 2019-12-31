@@ -23,7 +23,7 @@ chrome.runtime.sendNativeMessage("io.github.ba32107.chrome.native_messaging.exam
  ```
 You should see the following alert box:
  
- ![example alert box](https://raw.githubusercontent.com/ba32107/dotnet-chrome-native-messaging/example_readme/docs/alert.png)
+ ![example alert box](https://raw.githubusercontent.com/ba32107/dotnet-chrome-native-messaging/master/docs/alert.png)
 
 #### Long-lived connection
 
