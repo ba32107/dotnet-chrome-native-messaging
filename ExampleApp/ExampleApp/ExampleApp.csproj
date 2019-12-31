@@ -8,8 +8,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Chrome.NativeMessaging.Installer\Chrome.NativeMessaging.Installer\Chrome.NativeMessaging.Installer.csproj" />
-      <ProjectReference Include="..\..\Chrome.NativeMessaging\Chrome.NativeMessaging\Chrome.NativeMessaging.csproj" />
+      <PackageReference Include="Chrome.NativeMessaging" Version="1.0.26" />
+      <PackageReference Include="Chrome.NativeMessaging.Installer" Version="1.0.14" />
     </ItemGroup>
 
 </Project>

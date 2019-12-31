@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO.Abstractions;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -77,7 +78,10 @@ namespace io.github.ba32107.Chrome.NativeMessaging.ExampleApp
             var fs = new FileSystem();
 
             var installer = NativeMessagingHostInstallerFactory.CreateInstaller(fs);
-            installer.Install(manifest);
+            var installedManifestPaths = installer.Install(manifest);
+            installedManifestPaths
+                .ToList()
+                .ForEach(manifestPath => Console.WriteLine($"Writing manifest to '{manifestPath}'"));
         }
 
         private static void Uninstall(string chromeExtensionId)
