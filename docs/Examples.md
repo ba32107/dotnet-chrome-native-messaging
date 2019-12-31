@@ -1,4 +1,4 @@
-# Example usage
+# Examples
 
 The following guide assumes that you already have a working Chrome Extension. Building one is not in scope for this guide, please refer to the [official documentation](https://developer.chrome.com/extensions/getstarted) for details.
 
@@ -13,7 +13,7 @@ dotnet build -c Release
 ```
 
 #### Simple usage
- 1. Call the native messaging host like so:
+Call the native messaging host like so:
  ```Javascript
 chrome.runtime.sendNativeMessage("io.github.ba32107.chrome.native_messaging.example_app", {
     text: "Hello World!"
@@ -21,7 +21,7 @@ chrome.runtime.sendNativeMessage("io.github.ba32107.chrome.native_messaging.exam
     alert(response.text);
 });
  ```
- 2. You should see the following alert box:
+You should see the following alert box:
  
  ![example alert box](https://raw.githubusercontent.com/ba32107/dotnet-chrome-native-messaging/example_readme/docs/alert.png)
 
