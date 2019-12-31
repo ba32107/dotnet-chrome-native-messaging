@@ -26,7 +26,7 @@ Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/m
 
 ### Chrome.NativeMessaging.Installer
 
-The installer package. You just need to create a manifest and let the library to the rest:
+This is the installer package. You just need to create a manifest and let the library to the rest:
 ```C#
 var manifest = new NativeMessagingHostManifest
 {
@@ -47,3 +47,7 @@ installer.Install(manifest);
 ```
 
 Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Chrome.NativeMessaging.Installer.md) to learn more.
+
+### More examples
+
+Learn more on the [Examples](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Examples.md) page.
