@@ -21,3 +21,14 @@ chrome.runtime.sendNativeMessage("io.github.ba32107.chrome.native_messaging.exam
  4. You should see the following alert box:
  
  ![example alert box](https://raw.githubusercontent.com/ba32107/dotnet-chrome-native-messaging/example_readme/docs/alert.png)
+
+In addition to sending a single message to the native messaging host, you can also create a long-lived connection:
+```Javascript
+port = chrome.runtime.connectNative("io.github.ba32107.chrome.native_messaging.example_app");
+port.onMessage.addListener(function(message) {
+    alert("Received: " + message.text);
+});
+
+port.postMessage({ text: "Connection initialized" });
+```
+The above example will send one message to the host, and keep listening to messages. Anything you send in the native messaging host with `Send` or `SendAsync` will arrive in the above event listener.
