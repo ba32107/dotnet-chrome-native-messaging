@@ -7,11 +7,9 @@ Use NuGet to add the package to your project.
 ## Usage
 
 ### Installing the native messaging host
-Installing a Chrome Native Messaging Host is an easy process: you need to create a manifest file, copy the file to the proper location, and create a registry entry (Windows only).
+Installing a Chrome Native Messaging Host manually is an easy process: you need to create a manifest file, copy the file to the proper location, and create a registry entry (Windows only). Learn more about the installation process on the [official documentation page](https://developer.chrome.com/apps/nativeMessaging) for native messaging.
 
-Learn more about the installation process on the [official documentation page](https://developer.chrome.com/apps/nativeMessaging) for native messaging.
-
-The following code will install the same manifest as the one on the above link:
+Using `Chrome.NativeMessaging.Installer`, the process is even easier. The following code snippet will install the same manifest as the one on the above link:
 ```C#
 var manifest = new NativeMessagingHostManifest
 {
@@ -30,15 +28,15 @@ var fs = new FileSystem();
 var installer = NativeMessagingHostInstallerFactory.CreateInstaller(fs);
 installer.Install(manifest);
 ```
-The manifest properties have the same rules as described in the official documentation. The object is validated before the installation happens. You may notice that the above code snippet does not set the `Type` property - that is because it has only one possible value, therefore it is constant.
+The manifest properties have the same rules as described in the official documentation, and the object is validated before the installation happens. You may notice that the above code snippet does not set the `Type` property - that is because it has only one possible value, therefore it is constant.
 
 The `Install` method returns the paths to which the manifest file was written to.
 
-__Note:__ the installer does not copy or deploy the actual native messaging host executable. It only creates the manifest and sets it up accordingly for Chrome to find.
+__Note:__ the installer does not copy or deploy the actual native messaging host executable. It only creates the manifest and sets it up accordingly for Chrome to find. You need to implement deploying the host executable and its dependencies yourself.
 
 ### Uninstalling the native messaging host
 
-Removing the Chrome Native Messaging Host is even easier: all you need to do is delete the manifest file, and on Windows, also delete the registry key.
+Removing the Chrome Native Messaging Host is even easier. If you were to do this manually, all you'd need to do is delete the manifest file, and on Windows, also delete the registry key.
 
 The code is identical to the above, but you call `Uninstall` on the installer object instead of `Install`:
 ```C#
