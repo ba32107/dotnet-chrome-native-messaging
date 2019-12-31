@@ -32,3 +32,8 @@ port.onMessage.addListener(function(message) {
 port.postMessage({ text: "Connection initialized" });
 ```
 The above example will send one message to the host, and keep listening to messages. Anything you send in the native messaging host with `Send` or `SendAsync` will arrive in the above event listener.
+
+Finally, you to clean up the ExampleApp:
+```Shell
+./bin/Release/netcoreapp3.1/ExampleApp.exe --uninstall <chrome_extension_id>
+```
