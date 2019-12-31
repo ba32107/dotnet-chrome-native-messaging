@@ -1,5 +1,8 @@
-# Chrome Native Messaging Host libraries in .NET
+![chrome_nativmsg_nuget_link](https://img.shields.io/nuget/v/Chrome.NativeMessaging?label=Chrome.NativeMessaging)
+![chrome_nativmsg_inst_nuget_link](https://img.shields.io/nuget/v/Chrome.NativeMessaging.Installer?label=Chrome.NativeMessaging.Installer)
 
+# Chrome Native Messaging Host libraries in .NET
+  
 A simple and intuitive .NET implementation of the [Chrome Native Messaging](https://developer.chrome.com/apps/nativeMessaging) protocol.
 
 * Easy to use
