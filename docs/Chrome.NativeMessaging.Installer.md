@@ -28,11 +28,11 @@ var fs = new FileSystem();
 var installer = NativeMessagingHostInstallerFactory.CreateInstaller(fs);
 installer.Install(manifest);
 ```
-The manifest properties have the same rules as described in the official documentation, and the object is validated before the installation happens. You may notice that the above code snippet does not set the `Type` property - that is because it has only one possible value, therefore it is constant.
+The manifest properties have the same rules as described in the official documentation, and the object is validated before the installation happens. You may notice that the above code snippet does not set the `Type` property - that's because it has only one possible value, therefore it is constant.
 
 The `Install` method returns the paths to which the manifest file was written to.
 
-__Note:__ the installer does not copy or deploy the actual native messaging host executable. It only creates the manifest and sets it up accordingly for Chrome to find. You need to implement deploying the host executable and its dependencies yourself.
+__Note:__ the installer does not copy or deploy the actual native messaging host executable. It only creates the manifest and sets it up accordingly for Chrome to find. Your installation logic needs to implementent deployment and set the correct path in the manifest.
 
 ### Uninstalling the native messaging host
 
