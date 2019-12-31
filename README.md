@@ -1,6 +1,6 @@
 [<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging?label=Chrome.NativeMessaging">](https://www.nuget.org/packages/Chrome.NativeMessaging/)
 [<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging.Installer?label=Chrome.NativeMessaging.Installer">](https://www.nuget.org/packages/Chrome.NativeMessaging.Installer/)
-![license_badge](https://img.shields.io/github/license/ba32107/dotnet-chrome-native-messaging)
+[<img src="https://img.shields.io/github/license/ba32107/dotnet-chrome-native-messaging">](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/LICENSE)
 
 # Chrome Native Messaging Host libraries in .NET
   
