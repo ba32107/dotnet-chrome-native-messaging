@@ -1,5 +1,5 @@
-![chrome_nativmsg_nuget_link](https://img.shields.io/nuget/v/Chrome.NativeMessaging?label=Chrome.NativeMessaging)
-![chrome_nativmsg_inst_nuget_link](https://img.shields.io/nuget/v/Chrome.NativeMessaging.Installer?label=Chrome.NativeMessaging.Installer)
+[<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging?label=Chrome.NativeMessaging">](https://www.nuget.org/packages/Chrome.NativeMessaging/)
+[<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging.Installer?label=Chrome.NativeMessaging.Installer">](https://www.nuget.org/packages/Chrome.NativeMessaging.Installer/)
 
 # Chrome Native Messaging Host libraries in .NET
   
