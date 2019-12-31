@@ -1,18 +1,18 @@
 # Chrome Native Messaging Host libraries in .NET
 
-A simple and intuitive .NET implementation of the [Chrome Native Messaging host](https://developer.chrome.com/apps/nativeMessaging).
+A simple and intuitive .NET implementation of the [Chrome Native Messaging host](https://developer.chrome.com/apps/nativeMessaging) protocol.
 
 * Easy to use
-* No JSON parsing, no dependencies
+* No JSON parsing or dependencies
 * .NET Standard & fully platform independent
-* Uses abstractions, easy to unit test
+* Testable through abstractions
 * Async support
 * Separate installer library
-* Available as NuGet packages
+* NuGet packages available
 
 ### Chrome.NativeMessaging
 
-The main library that implements the native messaging host. It really is easy to use - all you need to implement is a `Func<string, string>`:
+Implements the native messaging host. It's dead simple: just call `StartListening` and pass in your message handler as a `Func<string, string>`:
 ```C#
 var host = new NativeMessagingHost();
 host.StartListening(jsonMessage =>
@@ -22,11 +22,11 @@ host.StartListening(jsonMessage =>
 });
 ```
 
-Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Chrome.NativeMessaging.md) to learn more.
+To learn more, check out [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Chrome.NativeMessaging.md) and the [Examples page](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Examples.md).
 
 ### Chrome.NativeMessaging.Installer
 
-This is the installer package. You just need to create a manifest and let the library do the rest:
+Use this library to install your native messaging host. Just create a manifest and let the library do the rest:
 ```C#
 var manifest = new NativeMessagingHostManifest
 {
@@ -45,9 +45,4 @@ var fs = new FileSystem();
 var installer = NativeMessagingHostInstallerFactory.CreateInstaller(fs);
 installer.Install(manifest);
 ```
-
 Read [the docs](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Chrome.NativeMessaging.Installer.md) to learn more.
-
-### More examples
-
-Learn more on the [Examples](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Examples.md) page.
