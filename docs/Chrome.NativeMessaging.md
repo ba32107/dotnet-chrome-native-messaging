@@ -6,7 +6,7 @@ Use NuGet to add the package to your project.
 
 ## Usage
 
-If you just need a simple messaging host that responds to Chrome messages, use `StartListening`. This method will continously process incoming messages and send replies, until Chrome disconnects the port or it is closed. You need to do your own JSON serialization. The below example uses `Newtonsoft.Json` and sends the message back unaltered:
+If you just need a simple messaging host that responds to Chrome messages, use `StartListening`. This method will continously process incoming messages and send replies, until the Chrome extension disconnects the port or Chrome is closed. You need to do your own JSON serialization. The below example uses `Newtonsoft.Json` and sends back the message unaltered:
 ```C#
 var host = new NativeMessagingHost();
 host.StartListening(jsonMessage =>
@@ -16,7 +16,7 @@ host.StartListening(jsonMessage =>
 });
 ```
 
-If you need to detect when the connection with Chrome terminates or Chrome closes, pass in an additional `Action` that handles the disconnect event:
+If you need to detect when the connection with the Chrome extension terminates or Chrome closes, pass in an additional `Action` that handles the disconnect event:
 ```C#
 var host = new NativeMessagingHost();
 host.StartListening(jsonMessage =>
@@ -55,7 +55,7 @@ await host.StartListeningAsync(async jsonMessage =>
 });
 ```
 
-Additionally, you can send messages to Chrome at any time, independent of the listening loops by using `SendMessage` or `SendMessageAsync`:
+Additionally, you can send messages to Chrome at any time, independently of the listening loops by using `SendMessage` or `SendMessageAsync`:
 ```C#
 host.Send(myMessageAsJson);
 // or
@@ -81,19 +81,19 @@ host.StartListening(jsonMessage =>
     return JsonConvert.SerializeObject(response);
 });
 ```
-This does not make sense at all: the value you return in the message handler  is automatically sent back to Chrome, as a reply to the received message. You don't have to (and should not) invoke `host.Send` yourself in the message handler.
+This does not make sense at all: the value you return in the message handler  is automatically sent back to Chrome, as a reply to the received message. You don't have to (and should not) invoke `host.Send` in the message handler.
 
-The correct way to use the `Send` methods is to invoke them outside of the listening loops (typically as a result of some event you observe on the machine). However, Chrome will __only__ receive those messages if there is an open connection between Chrome and the host.
+The correct way to use the `Send` methods is to invoke them outside of the listening loops (typically as a result of some event you observe on the machine). However, Chrome will __only__ receive these messages if there is an open connection between Chrome and the host. See the [Examples](https://github.com/ba32107/dotnet-chrome-native-messaging/blob/master/docs/Examples.md#long-lived-connection) page for more information.
 
 ### FAQ
 
 #### Why doesn't this library do the JSON parsing for me?
-Depending on your use-case, you might have a number of different JSON schemas in your application. For example, you might have an `action` field, and depending what value the Chrome extension sends in this field, the additional JSON fields might be completely different.
+Depending on your use-case, you might have a number of different JSON schemas in your application. For example, you might have an `action` field, and depending on what value the Chrome extension sends in this field, the additional JSON fields might be completely different.
 
-Implementing a single, typed message handler is not possible with multiple JSON schemas. In order to provide the most flexibility, JSON serialization / deserialization is left up to the user.
+Implementing a single, typed message handler is not possible with multiple JSON schemas. In order to provide the most flexibility, JSON serialization / deserialization is left up to you.
 
 #### Why aren't there any `StopListening` methods?
-If the connection between Chrome and the host is closed from the host side (if for example the program terminates before Chrome disconnects), Chrome will mark it as a Native Messaging Host error. The host is not supposed to disconnect from Chrome and there is no clean way to do it - therefore stopping the listening loop is not implemented.
+If the connection between Chrome and the host is closed from the host side (if for example the program terminates before Chrome disconnects), Chrome will mark that as a Native Messaging Host error. The host is not supposed to disconnect from Chrome and there is no clean way to do it - therefore stopping the listening loop is not implemented.
 
 #### How exactly does each method work?
-Please refer to the XML documentation.
+Please refer to the XML documentation to learn more.
