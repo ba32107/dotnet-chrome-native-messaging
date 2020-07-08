@@ -125,8 +125,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging
 
         private static byte[] MessageToChromeCompliantByteArray(string message)
         {
-            var messagePrefix = BitConverter.GetBytes(message.Length);
             var messageAsBytes = Encoding.UTF8.GetBytes(message);
+            var messagePrefix = BitConverter.GetBytes(messageAsBytes.Length);
             return messagePrefix.Concat(messageAsBytes).ToArray();
         }
     }
