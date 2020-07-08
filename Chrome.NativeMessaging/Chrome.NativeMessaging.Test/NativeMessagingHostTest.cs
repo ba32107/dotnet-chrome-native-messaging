@@ -17,9 +17,12 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
         {
             "Test plain message",
             "{    \"glossary\": {        \"title\": \"example glossary\",		\"GlossDiv\": {            \"title\": \"S\",			\"GlossList\": {                \"GlossEntry\": {                    \"ID\": \"SGML\",					\"SortAs\": \"SGML\",					\"GlossTerm\": \"Standard Generalized Markup Language\",					\"Acronym\": \"SGML\",					\"Abbrev\": \"ISO 8879:1986\",					\"GlossDef\": {                        \"para\": \"A meta-markup language, used to create markup languages such as DocBook.\",						\"GlossSeeAlso\": [\"GML\", \"XML\"]                    },					\"GlossSee\": \"markup\"                }            }        }    }}",
-            "! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~"
+            "! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9 : ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z [ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~",
+            "árvíztűrő tükörfúrógép",
+            "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[]^_`abcdefghijklmnopqrstuvwxyz{|}~¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿĂăĄąĆćČčĎďĐđĘęĚěĹĺĽľŁłŃńŇňŐőŒœŔŕŘřŚśŞşŠšŢţŤťŮůŰűŸŹźŻżŽžƒˆˇ˘˙˛˜˝–—‘’‚“”„†‡•…‰‹›€™",
+            "網站有中、英文版本，也有繁、簡體版，可通過每頁左上角的連結隨時調整。"
         };
-        
+
         private NativeMessagingHost _uut;
         private IStdIoStreamProvider _streamProvider;
         private Stream _fakeStream;
@@ -30,17 +33,17 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
             _streamProvider = A.Fake<IStdIoStreamProvider>();
             _fakeStream = A.Fake<Stream>();
             A.CallTo(() => _streamProvider.GetStandardOutputStream()).Returns(_fakeStream);
-            
+
             _uut = new NativeMessagingHost(_streamProvider);
         }
-        
+
         [TestCaseSource(nameof(TestMessages))]
         public void TestSend(string message)
         {
             _uut.Send(message);
             VerifyMessageWrittenToFakeStreamOnce(message);
         }
-        
+
         [TestCaseSource(nameof(TestMessages))]
         public async Task TestSendAsync(string message)
         {
@@ -57,14 +60,14 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
 
             var expectedReplyMessage = $"{ReplyPrefix}{message}";
             var disconnectHandlerInvoked = false;
-            
-            _uut.StartListening(msg => $"{ReplyPrefix}{msg}", 
+
+            _uut.StartListening(msg => $"{ReplyPrefix}{msg}",
                 () => disconnectHandlerInvoked = true);
-            
+
             VerifyMessageWrittenToFakeStreamOnce(expectedReplyMessage);
             Assert.True(disconnectHandlerInvoked);
         }
-        
+
         [TestCaseSource(nameof(TestMessages))]
         public async Task TestListeningAsync(string message)
         {
@@ -74,18 +77,18 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
 
             var expectedReplyMessage = $"{ReplyPrefix}{message}";
             var disconnectHandlerInvoked = false;
-            
+
             await _uut.StartListeningAsync(async msg =>
                 {
                     await Task.Delay(10);
                     return $"{ReplyPrefix}{msg}";
-                }, 
+                },
                 async () =>
                 {
                     await Task.Delay(10);
                     disconnectHandlerInvoked = true;
                 });
-            
+
             VerifyMessageWrittenToStreamOnceAsynchronously(expectedReplyMessage);
             Assert.True(disconnectHandlerInvoked);
         }
@@ -97,7 +100,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
                     _fakeStream.Write(A<byte[]>.That.IsSameSequenceAs(expectedByteArray), 0, expectedByteArray.Length))
                 .MustHaveHappenedOnceExactly();
         }
-        
+
         private void VerifyMessageWrittenToStreamOnceAsynchronously(string message)
         {
             var expectedByteArray = MessageToByteArray(message);
@@ -107,11 +110,11 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test
 
         private static byte[] MessageToByteArray(string message)
         {
-            var messagePrefix = BitConverter.GetBytes(message.Length);
             var messageAsBytes = Encoding.UTF8.GetBytes(message);
+            var messagePrefix = BitConverter.GetBytes(messageAsBytes.Length);
             return messagePrefix.Concat(messageAsBytes).ToArray();
         }
-        
+
         private void SetUpInputStreams(params Stream[] inputStreams)
         {
             A.CallTo(() => _streamProvider.GetStandardInputStream()).ReturnsNextFromSequence(inputStreams);
