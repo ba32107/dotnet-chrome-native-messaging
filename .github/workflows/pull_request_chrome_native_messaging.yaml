@@ -1,0 +1,27 @@
+name: PR build for Chrome.NativeMessaging
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+    - 'Chrome.NativeMessaging/**'
+
+defaults:
+  run:
+    working-directory: Chrome.NativeMessaging
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Run Unit Tests
+      run: dotnet test -c Release --no-restore --verbosity normal
