@@ -54,7 +54,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
         private (string PrimaryManifestPath, string[] AllManifestPaths) GetPrimaryAndAllPossibleManifestPaths(
             NativeMessagingHostManifest manifest)
         {
-            var chromeUserDataDirectory = ResolvePath(@"%LOCALAPPDATA%\Google\Chrome\User Data");
+             var chromeUserDataDirectory = ResolvePath(@"%LOCALAPPDATA%\Google\Chrome\User Data");
             var chromiumUserDataDirectory = ResolvePath(@"%LOCALAPPDATA%\Chromium\User Data");
             var manifestFileRelativePath = _fs.Path.Combine("NativeMessagingHosts", $"{manifest.Name}.json");
 
