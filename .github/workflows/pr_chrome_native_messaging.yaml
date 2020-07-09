@@ -1,4 +1,4 @@
-name: PR build for Chrome.NativeMessaging
+name: Build & Test (Chrome.NativeMessaging)
 
 on:
   pull_request:
