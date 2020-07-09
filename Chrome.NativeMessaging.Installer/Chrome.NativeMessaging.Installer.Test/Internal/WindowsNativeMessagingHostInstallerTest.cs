@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO.Abstractions;
+﻿using System.IO.Abstractions;
 using System.IO.Abstractions.TestingHelpers;
 using System.Linq;
 using FakeItEasy;
@@ -12,6 +11,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
     {
         private const string ManifestName = "test_manifest";
         private const string RegistryKeyPrefix = @"SOFTWARE\Google\Chrome\NativeMessagingHosts";
+        private const string AppDataDir = "AppDataDir";
 
         private WindowsNativeMessagingHostInstaller _uut;
         private IFileSystem _fs;
@@ -29,6 +29,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
                     new WindowsNativeMessagingHostInstaller(_fs)
                 ));
 
+            A.CallTo(() => _uut.ResolvePath(A<string>._))
+                .ReturnsLazily((string path) => path.Replace("%LOCALAPPDATA%", AppDataDir));
             A.CallTo(() => _uut.CreateRegistryKeyInCurrentUserAndSetDefaultValue(A<string>._, A<string>._))
                 .DoesNothing();
             A.CallTo(() => _uut.DeleteRegistryKeyFromCurrentUserNoThrow(A<string>._)).DoesNothing();
@@ -44,10 +46,8 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
                 }
             };
 
-            _chromeProfileDir = _fs.Path.Combine(Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%"),
-                "Google", "Chrome", "User Data");
-            _chromiumProfileDir = _fs.Path.Combine(Environment.ExpandEnvironmentVariables("%LOCALAPPDATA%"),
-                "Chromium", "User Data");
+            _chromeProfileDir = _fs.Path.Combine(AppDataDir, "Google", "Chrome", "User Data");
+            _chromiumProfileDir = _fs.Path.Combine(AppDataDir, "Chromium", "User Data");
             _chromeManifestFilePath = _fs.Path.Combine(_chromeProfileDir, "NativeMessagingHosts", $"{ManifestName}.json");
             _chromiumManifestFilePath = _fs.Path.Combine(_chromiumProfileDir, "NativeMessagingHosts", $"{ManifestName}.json");
         }

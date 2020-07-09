@@ -81,11 +81,6 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
             return (primaryManifestPath, allPossibleManifestPaths.ToArray());
         }
 
-        private string ResolvePath(string path)
-        {
-            return _fs.Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
-        }
-
         private void WriteTextToFileCreateParentDirectory(string text, string manifestFilePath)
         {
             _fs.Directory.CreateDirectory(_fs.Path.GetDirectoryName(manifestFilePath));
@@ -108,6 +103,11 @@ namespace io.github.ba32107.Chrome.NativeMessaging.Internal
         private static string ToChromeNativeMessagingHostRegistryKeyPath(string manifestName)
         {
             return $@"SOFTWARE\Google\Chrome\NativeMessagingHosts\{manifestName}";
+        }
+
+        internal virtual string ResolvePath(string path)
+        {
+            return _fs.Path.GetFullPath(Environment.ExpandEnvironmentVariables(path));
         }
 
         internal virtual void CreateRegistryKeyInCurrentUserAndSetDefaultValue(string key, string value)
