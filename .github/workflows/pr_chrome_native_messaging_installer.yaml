@@ -26,4 +26,4 @@ jobs:
     - name: Build
       run: dotnet build -c Release --no-restore
     - name: Run Unit Tests
-      run: dotnet test -c Release --no-restore --verbosity detailed
+      run: dotnet test -c Release --no-restore --verbosity normal
