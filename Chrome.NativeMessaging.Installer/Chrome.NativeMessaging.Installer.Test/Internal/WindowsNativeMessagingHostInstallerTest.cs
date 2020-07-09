@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 namespace io.github.ba32107.Chrome.NativeMessaging.Test.Internal
 {
+    [Platform(Exclude="Unix,Linux,MacOsX")]
     internal class WindowsNativeMessagingHostInstallerTest
     {
         private const string ManifestName = "test_manifest";
