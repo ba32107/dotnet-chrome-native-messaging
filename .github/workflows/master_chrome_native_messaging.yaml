@@ -32,6 +32,8 @@ jobs:
       run: dotnet pack -c Release --no-build
     - name: Create Git tag
       run: |
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@github.io"        
         export TAG=$(basename $(ls Chrome.NativeMessaging/bin/Release/Chrome.NativeMessaging.*) .nupkg)
         echo "Will create tag '$TAG'"
         git tag -a $TAG -m "$(git log -1 --pretty=%B)"
