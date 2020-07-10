@@ -1,0 +1,41 @@
+name: Build & Test (Chrome.NativeMessaging)
+
+on:
+  pull_request:
+    branches: [ master ]
+    paths:
+    - 'Chrome.NativeMessaging/**'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: Chrome.NativeMessaging
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Run Unit Tests
+      run: dotnet test -c Release --no-restore --verbosity normal
+    - name: Pack NuGet package
+      run: dotnet pack -c Release --no-build
+    - name: Create Git tag
+      run: |
+        export PACKAGE_NAME=$(basename $(ls Chrome.NativeMessaging/bin/Release/Chrome.NativeMessaging.*) .nupkg)
+        echo "Will create tag '$PACKAGE_NAME'"
+        git tag $PACKAGE_NAME
+#    - name: Push to NuGet.org
+#      env:
+#        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+#      run: dotnet nuget push $(ls ./Chrome.NativeMessaging/bin/Release/Chrome.NativeMessaging.*) -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
