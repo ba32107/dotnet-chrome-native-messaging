@@ -1,7 +1,7 @@
-name: Build & Test (Chrome.NativeMessaging)
+name: Build & Publish NuGet package (Chrome.NativeMessaging)
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
     paths:
     - 'Chrome.NativeMessaging/**'
@@ -12,7 +12,7 @@ defaults:
     working-directory: Chrome.NativeMessaging
     
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -38,7 +38,7 @@ jobs:
         echo "Will create tag '$TAG'"
         git tag -a $TAG -m "$(git log -1 --pretty=%B)"
         git push origin $TAG
-#    - name: Push to NuGet.org
-#      env:
-#        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-#      run: dotnet nuget push $(ls ./Chrome.NativeMessaging/bin/Release/Chrome.NativeMessaging.*) -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
+    - name: Push to NuGet.org
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push $(ls ./Chrome.NativeMessaging/bin/Release/Chrome.NativeMessaging.*) -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
