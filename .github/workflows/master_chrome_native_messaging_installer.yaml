@@ -1,0 +1,44 @@
+name: Build & Publish NuGet package (Chrome.NativeMessaging.Installer)
+
+on:
+  push:
+    branches: [ master ]
+    paths:
+    - 'Chrome.NativeMessaging.Installer/**'
+
+defaults:
+  run:
+    shell: bash
+    working-directory: Chrome.NativeMessaging.Installer
+    
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0  
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c Release --no-restore
+    - name: Run Unit Tests
+      run: dotnet test -c Release --no-restore --verbosity normal
+    - name: Pack NuGet package
+      run: dotnet pack -c Release --no-build
+    - name: Create Git tag
+      run: |
+        git config user.name "${GITHUB_ACTOR}"
+        git config user.email "${GITHUB_ACTOR}@github.io"        
+        export TAG=$(basename $(ls Chrome.NativeMessaging.Installer/bin/Release/Chrome.NativeMessaging.Installer.*) .nupkg)
+        echo "Will create tag '$TAG'"
+        git tag -a $TAG -m "$(git log -1 --pretty=%B)"
+        git push origin $TAG
+    - name: Push to NuGet.org
+      env:
+        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push $(ls ./Chrome.NativeMessaging.Installer/bin/Release/Chrome.NativeMessaging.Installer.*) -k $NUGET_API_KEY -s https://api.nuget.org/v3/index.json
