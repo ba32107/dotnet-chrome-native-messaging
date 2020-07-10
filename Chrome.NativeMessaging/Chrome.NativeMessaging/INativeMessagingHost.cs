@@ -5,7 +5,7 @@ namespace io.github.ba32107.Chrome.NativeMessaging
 {
     /// <summary>
     /// Represents the native messaging host. Can be used to send a single message to Chrome, or to listen and
-    /// reply to messages continuously.f
+    /// reply to messages continuously.fdfd
     /// </summary>
     public interface INativeMessagingHost
     {
