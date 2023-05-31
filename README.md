@@ -2,11 +2,11 @@
 # Chrome Native Messaging Host libraries in .NET
 
 [<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging?label=Chrome.NativeMessaging">](https://www.nuget.org/packages/Chrome.NativeMessaging/)
-[<img src="https://img.shields.io/github/workflow/status/ba32107/dotnet-chrome-native-messaging/Build%20&%20Publish%20NuGet%20package%20(Chrome.NativeMessaging)">](#)
+[<img src="https://img.shields.io/github/actions/workflow/status/ba32107/dotnet-chrome-native-messaging/master_chrome_native_messaging.yaml?branch=main(Chrome.NativeMessaging)">](#)
 [<img src="https://img.shields.io/nuget/dt/Chrome.NativeMessaging">](#)  
 
 [<img src="https://img.shields.io/nuget/v/Chrome.NativeMessaging.Installer?label=Chrome.NativeMessaging.Installer">](https://www.nuget.org/packages/Chrome.NativeMessaging.Installer/)
-[<img src="https://img.shields.io/github/workflow/status/ba32107/dotnet-chrome-native-messaging/Build%20&%20Publish%20NuGet%20package%20(Chrome.NativeMessaging.Installer)">](#)
+[<img src="https://img.shields.io/github/actions/workflow/status/ba32107/dotnet-chrome-native-messaging/master_chrome_native_messaging_installer.yaml?branch=main(Chrome.NativeMessaging.Installer)">](#)
 [<img src="https://img.shields.io/nuget/dt/Chrome.NativeMessaging.Installer">](#)  
   
 A simple and intuitive .NET implementation of the [Chrome Native Messaging](https://developer.chrome.com/apps/nativeMessaging) protocol.
